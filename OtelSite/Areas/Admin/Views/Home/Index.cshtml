@@ -1,0 +1,230 @@
+﻿@model IEnumerable<OtelSite.Models.Room>
+
+@{
+    ViewBag.Title = "Oda Listesi";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<meta http-equiv="refresh" content="300;">
+<style type="text/css">
+    .King {
+        color: blue;
+        font-weight: bold;
+        font-size: xx-large;
+    }
+
+    .Suit {
+        color: blue;
+        font-weight: bold;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-4 col-md-6 col-xs-12">
+        <!-- small box -->
+        <div class="small-box bg-red gradi">
+            <div class="inner">
+                <h3> numara</h3>
+                <p> tip</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-xs-12">
+        <!-- small box -->
+        <div class="small-box bg-red">
+            <div class="inner">
+                <h3> numara</h3>
+                <p> tip</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-xs-12">
+        <!-- small box -->
+        <div class="small-box bg-red">
+            <div class="inner">
+                <h3> numara</h3>
+                <p> tip</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="contanier">
+        @foreach (OtelSite.Models.Room item in Model.OrderBy(x => x.Number))
+        {
+            if (item.Status == "Dolu")
+            {
+                <div class="col-lg-3 col-md-6 col-xs-12">
+                    <!-- small box -->
+                    <a class="btn small-box bg-red-gradient" href="@Url.Action("Create", "Rezarvasyon", new { id = item.Id })">
+                        <div class="inner text-left">
+                            <h3>@item.Number</h3>
+                            <p>
+                                @item.RoomsType.Room &nbsp;- &nbsp;@item.Status
+                            </p>
+
+
+                        </div>
+                    </a>
+
+                </div>
+
+            }
+            else if (item.Status == "Bos")
+            {
+                <div class="col-lg-3 col-md-6 col-xs-12">
+                    <!-- small box -->
+                    <a class="btn small-box bg-purple-gradient" href="@Url.Action("Create", "Rezarvasyon", new { id = item.Id })">
+                        <div class=" inner text-left">
+                            <h3>@item.Number</h3>
+                            <p>
+                                @item.RoomsType.Room &nbsp;- &nbsp;@item.Status
+                            </p>
+
+
+                        </div>
+                    </a>
+
+            </div>
+
+            }
+            else if (item.Status == "Kirli")
+            {
+            <div class="col-lg-3 col-md-6 col-xs-12">
+                <!-- small box -->
+                <a class="btn small-box bg-yellow-gradient" href="@Url.Action("Create", "Rezarvasyon", new { id = item.Id })">
+                    <div class="inner text-left">
+                        <h3>@item.Number</h3>
+                        <p>
+                            @item.RoomsType.Room &nbsp;- &nbsp;@item.Status
+                        </p>
+
+
+                    </div>
+                </a>
+
+            </div>
+            }
+
+
+            }
+        </div>
+
+        </div>
+
+        @*<div class="row">
+                @foreach (OtelSite.Models.Room item in Model.OrderBy(x => x.Number))
+                {
+                    if (item.Number.StartsWith("2"))
+                    {
+                        <div class="col-lg-3 col-md-6 col-xs-12">
+                            <!-- small box -->
+                            <a id="_ikiyuz" class="btn small-box bg-purple-gradient" href="@item.Number">
+                                <div class="inner text-left">
+                                    <h3>@item.Number</h3>
+                                    <p>@item.RoomsType.Room &nbsp;- &nbsp;@item.Status</p>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+
+            </div>
+            <div class="row">
+                @foreach (OtelSite.Models.Room item in Model.OrderBy(x => x.Number))
+                {
+                    if (item.Number.StartsWith("3"))
+                    {
+                        <div class="col-lg-3 col-md-6 col-xs-12">
+                            <!-- small box -->
+                            <a id="_ucyuz" class="btn small-box bg-purple-gradient" href="@item.Number">
+                                <div class="inner text-left">
+                                    <h3>@item.Number</h3>
+                                    <p >@item.RoomsType.Room &nbsp;- &nbsp;@item.Status</p>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+
+            </div>
+            <div class="row">
+                @foreach (OtelSite.Models.Room item in Model.OrderBy(x => x.Number))
+                {
+                    if (item.Number.StartsWith("4"))
+                    {
+                        <div class="col-lg-3 col-md-6 col-xs-12">
+                            <!-- small box -->
+                            <a id="_dortyuz" class="btn small-box bg-purple-gradient" href="@item.Number">
+                                <div class="inner text-left">
+                                    <h3>@item.Number</h3>
+                                    @if (@item.RoomsType.Room == "Suit")
+                                    {
+                                        <p class="Suit">@item.RoomsType.Room &nbsp;- &nbsp;@item.Status</p>
+                                    }
+                                    else
+                                    {
+                                        <p>@item.RoomsType.Room &nbsp;- &nbsp;@item.Status</p>
+                                    }
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+
+            </div>
+            <div class="row">
+                @foreach (OtelSite.Models.Room item in Model.OrderBy(x => x.Number))
+                {
+                    if (item.Number.StartsWith("5"))
+                    {
+
+                        <div class=" col-lg-offset-3 col-md-12 col-lg-6 col-xs-12">
+                            <!-- small box -->
+                            <a id="_besyuz" class="btn small-box bg-purple-gradient" href="@item.Number">
+
+                                <div class="inner text-left">
+                                    <h3>@item.Number</h3>
+
+                                    @if (@item.RoomsType.Room == "King")
+                                    {
+                                        <p class="King">@item.RoomsType.Room &nbsp;- &nbsp;@item.Status</p>
+                                    }
+                                    else
+                                    {
+
+                                        <p>@item.RoomsType.Room</p>}
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+
+
+                <script>
+                $(document).ready(function () {
+                    $("#_yuz").parent().parent().addClass("bg-purple-gradient");
+                    $("#_yuz").parent().parent().addClass("bg-purple-gradient");
+                    $("#_yuz").parent().parent().addClass("bg-purple-gradient");
+                    $("#_yuz").parent().parent().addClass("bg-purple-gradient");
+                    $("#_yuz").parent().parent().addClass("bg-purple-gradient");
+                    $("#_yuz").parent().parent().addClass("bg-purple-gradient");
+                    $("#_yuz").parent().parent().addClass("bg-purple-gradient");
+                });
+                </script>
+
+
+            </div>*@

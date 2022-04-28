@@ -1,0 +1,183 @@
+﻿@using OtelSite.Models;
+@model  Room
+
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    OtelSite.BLL.RoomRepository _RoomRepository = new OtelSite.BLL.RoomRepository();
+}
+
+
+
+<div id="_control" class="btn btn-danger">_control</div>
+
+<h2>Rezarvasyon</h2>
+@using (Html.BeginForm("", "Rezarvasyon", FormMethod.Post))
+{
+
+
+    <div class="form-group col-lg-2">
+        <label>Giriş</label>
+        <input type="date" class="form-control" id="check-in" value="">
+    </div>
+    <div class="form-group col-lg-2">
+        <label>Çıkış</label>
+        <input type="date" class="form-control" id="check-out" value="">
+    </div>  
+    <div class="clearfix"></div>
+    <div class="form-group col-lg-4">
+   
+        
+        <label>Oda Numarası</label>
+        @Html.DropDownListFor(model => model.Id, (_RoomRepository.Listele().Select(x => new SelectListItem
+       {
+           Text = x.Number + " " + x.RoomsType.Room,
+           Value = x.Id.ToString()
+       })).OrderBy(x => x.Text), "- Rol Seçiniz -", new
+       {
+           @id = "drpRoom",
+           @class = "form-control "
+       })
+
+
+    </div>
+
+    <div class="clearfix"></div>
+
+
+    <div class="form-group col-lg-4">
+        <div class="form-group">
+            <label>TC Kimlik</label>
+            <input type="text" class="form-control" id="TCKN" required>
+        </div>
+        <div class="form-group">
+            <label>Ad</label>
+            <input type="text" class="form-control" id="FirstName" required>
+        </div>
+        <div class="form-group">
+            <label>Soyad</label>
+            <input type="text" class="form-control" id="LastName" required>
+        </div>
+        <div class="form-group">
+            <label>Telefon</label>
+            <input type="text" class="form-control" id="Phone" required>
+        </div>
+        <div class="form-group">
+            <label>Baba Adı</label>
+            <input type="text" class="form-control" id="Father" required>
+        </div>
+        <div class="form-group">
+            <label>Anne Adı</label>
+            <input type="text" class="form-control" id="Mother" required>
+        </div>
+        <div class="form-group">
+            <label>Doğum Tarihi</label>
+            <input type="text" class="form-control" id="BirthDate" required>
+        </div>
+        <div class="form-group">
+            <label>Adress</label>
+            <input type="text" class="form-control" id="Address" required>
+        </div>
+        <button type="submit" id="Kayitpost" class="btn btn-default form-control">Submit</button>
+
+    </div>
+
+
+
+}
+
+
+<script src="~/Areas/Admin/Content/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        //$("#Kayitpost").click(function () {
+
+        //    if ($("#drpRoom").val() == "") {
+        //        alert("oda seciniz");
+        //        event.preventDefault();
+        //    }
+        //});
+
+        //var tarih = $("#check-in").val();
+        //alert(tarih);
+
+        $("#check-out").change(function () {
+            var giris = $("#check-in").val();
+            var cikis = $("#check-out").val();
+            var nGiris = "", nCikis = "";
+
+            var gB = giris.split("-");
+            for (i = 0; i < gB.length; i++)
+                nGiris += gB[i];
+
+            var cB = cikis.split("-");
+            for (i = 0; i < cB.length; i++)
+                nCikis += cB[i];
+
+            //alert(nCikis - nGiris);
+        });
+
+        //$("#temizle").click(function () {
+        //    var id = 'ad894cdb-7b28-4f05-9ee3-11ab6ba9b08d';
+        //    $("#drpRoom option[value="+id+"]").remove();
+               
+        //            //$("#drpRoom").append('<option value="' + data[i].Id + '">' + data[i].Number + '</option>');
+                            
+
+                           
+        
+        //    //alert($("#drpRoom option[value='ad894cdb-7b28-4f05-9ee3-11ab6ba9b08d']").remove());
+
+        //});
+
+
+
+        $("#check-out").change(function () {
+                if ($("#check-in").val() == "") {
+                    alert("Giriş tarihini seçiniz");
+                    event.preventDefault();
+                }
+
+                else if ($("#check-out").val() == "") {
+                    alert("Çıkış tarihini seçiniz");
+                    event.preventDefault();
+                }
+
+                if ($("#check-in").val() > $("#check-out").val()) {
+                    alert("giriş tarihi cıkış tarihinden sonra olamaz");
+                    event.preventDefault();
+                }
+                else {
+                    var giris = $("#check-in").val();
+                    var cikis = $("#check-out").val();
+
+                    
+              
+                    $.post("@Url.Action("_Control", "Rezarvasyon")", { bas: giris}, function (data) {
+                       debugger
+                        for (var i = 0; i < data.length; i++) {
+                            $("#drpRoom option[value=" + data[i].Id + "]").remove();
+               
+                            //$("#drpRoom").append('<option value="' + data[i].Id + '">' + data[i].Number + '</option>');
+                            
+
+                           
+                        }
+                    });
+
+                }
+
+            });
+    
+
+    });
+    //var currentdate = new Date();
+    //var datetime = +currentdate.getDate() + "/" + (currentdate.getMonth() + 1) + "/" + currentdate.getFullYear(); document.write(datetime);
+    //$("check-in").html(datetime.toString());
+
+
+
+</script>
